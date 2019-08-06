@@ -1,68 +1,55 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Audience
 
-## Available Scripts
+Technical review team at MEWS.
 
-In the project directory, you can run:
+## Background
 
-### `npm start`
+This is the exercise for the Front-End position at [MEWS](https://www.mewssystems.com).
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Proof of concept
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+A simple application that interacts with the provided Back-End API to allow the user to see the exchange rates for a specific subset of currencies, using a simple design.
 
-### `npm test`
+## Out of scope
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Integration tests.
+- Unit tests.
+- Visual regression tests.
+- A wonderful design.
 
-### `npm run build`
+## Behavior
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+0. Show a loading screen.
+1. On page load, `GET /configuration` so we can get a list of rates.
+   - If the request fails, redirect the user to /error page.
+   - If there is no data, show NO DATA AVAILABLE error page. (Bonus)
+1. Once `GET /configuration` answers, use Object.keys() to extract the ids, and request `GET /rates?currencyIds[]=id1&currencyIds[]=id2`
+1. Update the redux store for exchanges. The intended data structure is as follows:
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```
+{
+  "id1": {
+    from: { code: 'USD', name: 'United States Dollar' },
+    to: { code: 'UAH', name: 'Ukranian hrivna' }
+    rate: {
+      current: 1.5,
+      previous: 1.4
+    }
+  }
+}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+4. Updating the store will trigger a re-render of the homepage
+   - Hide loading
+   - Populate a select that will allow the user to see the exchange rate.
+5. User selects an exchange from the select.
+6. We have a onChange() handler on the select that will select a specific `exchange.id` and show it on screen
+   - Show FROM currency
+   - Show TO currency
+   - Show exchange rate for 1 FROM to TO. (1 USD = 28 UAH)
+7. Arrow indicator behavior:
+   - After the user chooses an option from the select, we start a recursive setTimeout that will ask the server for the latest exchange rate for that specific id.
+   - If the value is lower than previous, show UP arrow.
+   - If the value is the same as previous, show STAGNATING icon.
+   - If the value is higher than previous, show DOWN arrow.
+8. Show a thanks message after 5 seconds. (Bonus)
