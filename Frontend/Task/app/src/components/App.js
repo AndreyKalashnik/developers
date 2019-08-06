@@ -6,11 +6,14 @@ import { PairRateItem } from "../containers/PairRateItem"
 
 function App() {
   return (
-    <div className="antialiased font-sans flex items-center justify-center min-h-screen min-w-screen bg-gray-200">
-      <Preloader />
-      <Select />
-      <PairRateItem />
-    </div>
+    <Preloader>
+      <div className="flex-wrap antialiased font-sans flex items-center justify-center min-h-screen min-w-screen bg-gray-200">
+        <Select />
+        <div className="flex flex-item w-full justify-center">
+          <PairRateItem />
+        </div>
+      </div>
+    </Preloader>
   )
 }
 

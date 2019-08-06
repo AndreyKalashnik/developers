@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import "../index.css"
 
 function ErrorPage() {
@@ -10,9 +11,11 @@ function ErrorPage() {
           An error occoured during loading the data, please try again.
         </div>
       </div>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Refresh the page
-      </button>
+      <Link to="/">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Refresh the page
+        </button>
+      </Link>
     </div>
   )
 }
