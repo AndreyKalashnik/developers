@@ -1,6 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import App from "./components/App"
+import IndexPage from "./containers/IndexPage"
 import ErrorPage from "./components/Error"
 import * as serviceWorker from "./serviceWorker"
 import { Provider } from "react-redux"
@@ -9,7 +9,8 @@ import createSagaMiddleware from "@redux-saga/core"
 import { logger } from "redux-logger"
 import {
   currencyPairsAndExchangeRatesReducer,
-  loadingReducer
+  loadingReducer,
+  selectedCurrencyPairReducer
 } from "./reducers"
 import rootSaga from "./sagas"
 import { Route, Router } from "react-router-dom"
@@ -20,7 +21,8 @@ const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
   combineReducers({
     currencyPairsAndExchangeRatesReducer,
-    loadingReducer
+    loadingReducer,
+    selectedCurrencyPairReducer
   }),
   compose(
     applyMiddleware(sagaMiddleware, logger),
@@ -35,7 +37,7 @@ sagaMiddleware.run(rootSaga)
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={App} />
+      <Route path="/" component={IndexPage} />
       <Route path="/error-page" component={ErrorPage} />
     </Router>
   </Provider>,

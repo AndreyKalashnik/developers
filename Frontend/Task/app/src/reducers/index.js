@@ -24,3 +24,12 @@ export const loadingReducer = (state = false, action) => {
       return state
   }
 }
+
+export const selectedCurrencyPairReducer = (state = null, action) => {
+  switch (action.type) {
+    case "SELECT_CURRENCY_PAIR":
+      return action.data
+    default:
+      return state
+  }
+}

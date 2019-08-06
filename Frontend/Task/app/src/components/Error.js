@@ -8,7 +8,7 @@ function ErrorPage() {
       <div className="flex-item flex justify-space-between border border-gray-700 rounded-lg items-center my-6">
         <div className="p-4 bg-gray-300 rounded-l-lg">500</div>
         <div className="p-4">
-          An error occoured during loading the data, please try again.
+          An error occured during loading the data, please try again.
         </div>
       </div>
       <Link to="/">

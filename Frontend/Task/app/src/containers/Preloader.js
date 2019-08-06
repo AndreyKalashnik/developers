@@ -1,27 +1,19 @@
 import React from "react"
 import { connect } from "react-redux"
+import { Preloader as PreloaderCmp } from "../components"
 
-export const PreloaderBase = ({ loading, children }) =>
-  loading ? (
-    <div>
-      <div className="flex-item flex ">
-        <div className="lds-ring">
-          <div />
-          <div />
-          <div />
-          <div />
-        </div>
-      </div>
-    </div>
-  ) : (
-    children
-  )
-
+const PreloaderBase = ({ loading, children }) => (
+  <PreloaderCmp loading={loading}>
+    <children />
+  </PreloaderCmp>
+)
 const mapStateToProps = (state) => ({
   loading: state.loadingReducer
 })
 
-export const Preloader = connect(
+const Preloader = connect(
   mapStateToProps,
   null
 )(PreloaderBase)
+
+export default Preloader

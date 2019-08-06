@@ -1,5 +1,4 @@
 import axios from "axios"
-import history from "../history"
 import { put, takeLatest, all } from "redux-saga/effects"
 import {
   FETCH_CURRENCY_PAIRS_AND_EXCHANGE_RATES_REQUEST,
@@ -54,13 +53,11 @@ function* fetchConfiguration() {
 }
 
 function* fetchRates(ids) {
-  const rates = yield axios
-    .get("http://localhost:3000/rates", {
-      params: {
-        currencyPairIds: ids
-      }
-    })
-    .catch(history.push("/error-page"))
+  const rates = yield axios.get("http://localhost:3000/rates", {
+    params: {
+      currencyPairIds: ids
+    }
+  })
   console.log("rates", rates.data.rates)
   return rates.data.rates
 }
