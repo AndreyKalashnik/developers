@@ -1,8 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import IndexPage from "./containers/IndexPage"
-import ErrorPage from "./components/Error"
-import * as serviceWorker from "./serviceWorker"
+import { App } from "./containers"
 import { Provider } from "react-redux"
 import { combineReducers, createStore, compose, applyMiddleware } from "redux"
 import createSagaMiddleware from "@redux-saga/core"
@@ -13,8 +11,6 @@ import {
   selectedCurrencyPairReducer
 } from "./reducers"
 import rootSaga from "./sagas"
-import { Route, Router } from "react-router-dom"
-import history from "./history"
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -36,15 +32,7 @@ sagaMiddleware.run(rootSaga)
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={IndexPage} />
-      <Route path="/error-page" component={ErrorPage} />
-    </Router>
+    <App />
   </Provider>,
   document.getElementById("root")
 )
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister()
