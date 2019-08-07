@@ -8,7 +8,25 @@ export const currencyPairsAndExchangeRatesReducer = (
 ) => {
   switch (action.type) {
     case FETCH_CURRENCY_PAIRS_AND_EXCHANGE_RATES_SUCCESS:
-      return Object.assign({}, state, action.data)
+      const data = Object.assign({}, state)
+      const { rates, currencyPairs } = action.data
+      // console.log(action.data)
+      Object.keys(currencyPairs).forEach((key) => {
+        if (!data || !data[key]) {
+          data[key] = currencyPairs[key]
+        }
+        const hasRateInformation =
+          data[key] && data[key][2] && typeof data[key][2] !== "undefined"
+        if (!hasRateInformation) {
+          data[key].push({
+            current: rates[key],
+            previous: rates[key]
+          })
+        }
+        data[key][2].previous = data[key][2].current
+        data[key][2].current = rates[key]
+      })
+      return data
     default:
       return state
   }

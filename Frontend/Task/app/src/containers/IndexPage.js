@@ -22,7 +22,7 @@ class SelectBase extends React.Component {
     return (
       <Preloader loading={loading}>
         {currencyPairs && Object.keys(currencyPairs).length > 0 && (
-          <div className="flex-wrap antialiased font-sans flex items-center justify-center min-h-screen min-w-screen bg-gray-200">
+          <div className="flex-wrap w-full h-screen antialiased font-sans flex items-center justify-center bg-gray-200">
             <div className="flex-item flex">
               <Select
                 currencyPairs={currencyPairs}
@@ -31,9 +31,11 @@ class SelectBase extends React.Component {
                 }}
               />
             </div>
-            <div className="flex flex-item w-full justify-center">
-              <PairRateItem current={currencyPairs[selectedCurrencyPair]} />
-            </div>
+            {currencyPairs && selectedCurrencyPair && (
+              <div className="flex flex-item w-full justify-center">
+                <PairRateItem current={currencyPairs[selectedCurrencyPair]} />
+              </div>
+            )}
           </div>
         )}
       </Preloader>

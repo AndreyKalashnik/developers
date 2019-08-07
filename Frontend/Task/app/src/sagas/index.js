@@ -14,30 +14,29 @@ function* fetchConfiguration() {
       type: "START_LOADING"
     })
   }
-  const result = yield axios
+  const currencyPairs = yield axios
     .get("http://localhost:3000/configuration")
     .then((response) => response.data.currencyPairs)
+    .catch((err) => err)
 
-  const ids = Object.keys(result)
+  // Can't even start the request, start over.
+  if (!currencyPairs) {
+    yield put({
+      type: FETCH_CURRENCY_PAIRS_AND_EXCHANGE_RATES_REQUEST
+    })
+    return
+  }
+  const ids = Object.keys(currencyPairs)
   const rates = yield fetchRates(ids)
-  const data = Object.assign({}, result)
-  ids.forEach((key) => {
-    const hasRateInformation =
-      data[key] && data[key][2] && typeof data[key][2] !== "undefined"
-    if (!hasRateInformation) {
-      data[key][2] = {
-        current: rates[key],
-        previous: rates[key]
-      }
-    }
-    data[key][2].previous = data[key][2].current
-    data[key][2].current = rates[key]
-  })
 
   yield put({
     type: FETCH_CURRENCY_PAIRS_AND_EXCHANGE_RATES_SUCCESS,
-    data
+    data: {
+      currencyPairs,
+      rates
+    }
   })
+
   if (!loadedAtLeastOnce) {
     yield put({
       type: "STOP_LOADING"
