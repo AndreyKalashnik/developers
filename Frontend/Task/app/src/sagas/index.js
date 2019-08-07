@@ -2,9 +2,10 @@ import axios from "axios"
 import { put, takeLatest, all } from "redux-saga/effects"
 import {
   FETCH_CURRENCY_PAIRS_AND_EXCHANGE_RATES_REQUEST,
-  FETCH_CURRENCY_PAIRS_AND_EXCHANGE_RATES_SUCCESS
+  FETCH_CURRENCY_PAIRS_AND_EXCHANGE_RATES_SUCCESS,
+  STOP_LOADING,
+  DEFAULT_TIMER_START_TIMEOUT
 } from "../constants"
-const DEFAULT_TIMER_START_TIMEOUT = 1000
 
 let loadedAtLeastOnce = false
 
@@ -39,7 +40,7 @@ function* fetchConfiguration() {
 
   if (!loadedAtLeastOnce) {
     yield put({
-      type: "STOP_LOADING"
+      type: STOP_LOADING
     })
     loadedAtLeastOnce = true
   }

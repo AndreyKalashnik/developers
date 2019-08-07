@@ -6,7 +6,7 @@ import {
 } from "../actions"
 import { Select, PairRateItem, Preloader } from "../components"
 
-class SelectBase extends React.Component {
+class IndexBase extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(getCurrencyPairsAndExchangeRates())
@@ -49,6 +49,6 @@ const mapStateToProps = (state) => ({
   selectedCurrencyPair: state.selectedCurrencyPairReducer
 })
 
-const IndexPage = connect(mapStateToProps)(SelectBase)
+const IndexPage = connect(mapStateToProps)(IndexBase)
 
 export default IndexPage

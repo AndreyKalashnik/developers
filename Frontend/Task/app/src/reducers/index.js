@@ -1,4 +1,9 @@
-import { FETCH_CURRENCY_PAIRS_AND_EXCHANGE_RATES_SUCCESS } from "../constants"
+import {
+  FETCH_CURRENCY_PAIRS_AND_EXCHANGE_RATES_SUCCESS,
+  SELECT_CURRENCY_PAIR,
+  START_LOADING,
+  STOP_LOADING
+} from "../constants"
 
 const initialState = {}
 
@@ -10,7 +15,6 @@ export const currencyPairsAndExchangeRatesReducer = (
     case FETCH_CURRENCY_PAIRS_AND_EXCHANGE_RATES_SUCCESS:
       const data = Object.assign({}, state)
       const { rates, currencyPairs } = action.data
-      // console.log(action.data)
       Object.keys(currencyPairs).forEach((key) => {
         if (!data || !data[key]) {
           data[key] = currencyPairs[key]
@@ -34,9 +38,9 @@ export const currencyPairsAndExchangeRatesReducer = (
 
 export const loadingReducer = (state = false, action) => {
   switch (action.type) {
-    case "START_LOADING":
+    case START_LOADING:
       return true
-    case "STOP_LOADING":
+    case STOP_LOADING:
       return false
     default:
       return state
@@ -45,7 +49,7 @@ export const loadingReducer = (state = false, action) => {
 
 export const selectedCurrencyPairReducer = (state = null, action) => {
   switch (action.type) {
-    case "SELECT_CURRENCY_PAIR":
+    case SELECT_CURRENCY_PAIR:
       return action.data
     default:
       return state
